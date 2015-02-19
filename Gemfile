@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in bread-basket.gemspec
+# Gem's dependencies are specified in bread-basket.gemspec
 gemspec

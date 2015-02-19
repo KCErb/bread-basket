@@ -2,31 +2,30 @@
 
 Basket is a tool for publishing scientific findings. It's the last piece of the :bread: framework for scientific computing.
 
-For now it just makes scientific posters. In the future thought it should help make figures, presentations, and maybe even full journal articles.
+For now it just makes scientific posters. In the future though, it should help make
+figures, presentations, and maybe even full journal articles.
 
-## Installation
+## Installation and Usage
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'bread-basket'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Since :bread: hasn't been built (at all) yet, this little piece of the framework
+is pretty lonely. As such the present intended use is just as a command-line utility.
+For making scientific posters. To use it, first get it into your Ruby environment with
 
     $ gem install bread-basket
 
-## Usage
+(If you're brand new to Ruby and not so sure about the above line, I plan to put
+an introduction to Ruby for scientists on the bread homepage. So just sit tight
+until I get that built.)
 
-The only tool in the Bread Basket is Posterize. You should call it from the command line with the path to your poster markdown file like so
+Once that's installed you should be able to convert a suitable markdown file
+(with your poster's content) and stylesheet into a nice pdf like so
 
-    $ posterize my-poster.md
+    $ bread-basket -p my-poster.md
 
-and it will produce a pdf that you can take to the printers. For more information on how to write the markdown file for you poster check out the website (doesn't exist yet).
+and it will produce a pdf that you can take to the printers!
+
+For more information on how to write the markdown file for your poster
+check out the website (doesn't exist yet).
 
 ## Contributing
 

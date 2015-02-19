@@ -8,12 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Bread::Basket::VERSION
   spec.authors       = ["KC Erb"]
   spec.email         = ["iamkcerb@gmail.com"]
-  spec.summary       = "The publication tool for bread"
-  spec.description   =
-    'Basket is a tool for publishing scientific findings. It\'s the last piece of ' +
-    'the :bread: framework for scientific computing.\n\nFor now it just makes' +
-    'scientific posters. In the future thought it should help make figures,' +
-    ' presentations, and maybe even full journal articles.'
+  spec.summary       = "The got-to publication tool for bread"
+  spec.description   = spec.summary
   spec.homepage      = "https://github.com/bread/bread-basket"
   spec.license       = "MIT"
 
