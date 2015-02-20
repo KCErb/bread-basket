@@ -1,0 +1,71 @@
+.poster {
+  style: flow;
+  repeat-header: true;
+  width: 4.ft;
+  height: 3.ft;
+  margin: 1.in;
+
+}
+
+.columns {
+  count: 4;
+  top: 1.in 4.in;
+}
+
+.body {
+  font-size: 36;
+  font-family: helvetica;
+}
+
+/*
+.title {
+  left: column[1].left;
+  right: column[2].right;
+  top: top;
+  height: 3.in;
+
+  font-size: 54;
+}
+
+.authors {
+  left: column[1].left;
+  right: column[2].right;
+  top: title.bottom + padding;
+  height: 2.in;
+
+  font-size: 36;
+}
+
+.affiliations {
+  left: column[1].left;
+  right: column[2].right;
+  top: authors.bottom + padding;
+  height: 1.in;
+
+  font-size: 24;
+}
+
+#caption {
+  font-size: 20;
+}
+
+#h1 {
+  background-color: #C00000;
+  radius: 8;
+  color: white;
+  font-size: 30;
+}
+
+#left_logo {
+  left: left;
+  top: top;
+  src: 'ucair_logo_left.png'
+}
+
+
+#right_logo {
+  left: right - width;
+  top: top;
+  src: 'ucair_logo_right.png'
+}
+*/

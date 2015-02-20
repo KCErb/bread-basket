@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+# Avoid running bundle exec by running this first instead!
+lib_directory = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH << lib_directory
+
+if File.exist?('Gemfile')
+  require 'bundler/setup'
+  Bundler.require
+end
+
+require 'bread/basket/cli'
+Bread::Basket::CLI.new.run ARGV

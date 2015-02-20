@@ -1,7 +1,5 @@
-require "bread/basket/version"
+require 'yaml'
 
-module Bread
-  module Basket
-    # Your code goes here...
-  end
-end
+require 'bread/basket/version'
+require 'bread/basket/cli'
+require 'bread/basket/poster_maker'
