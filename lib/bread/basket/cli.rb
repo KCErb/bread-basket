@@ -7,24 +7,26 @@ module Bread
       def parse!(args)
         options = OptionParser.new do |opts|
           opts.program_name = 'bread-basket'
-          opts.banner = <<-EOS
-Usage: #{opts.program_name} -p  filename.md
-          EOS
+          opts.banner = "Usage: #{opts.program_name} -p  filename.md"
           opts.separator ''
           opts.separator 'Options:'
-
-          opts.on('-p', '--poster FILENAME', 'create a scientific poster') do |filename|
-            if File.file?(filename)
-              ::Bread::Basket::PosterMaker.new filename
-            else
-              puts "bread-basket can't find the file you specified"
-              exit(0)
-            end
-          end
+          poster_opt(opts)
         end
 
         options.parse!(args)
         options
+      end
+
+      def poster_opt(opts)
+        description = 'create a scientific poster'
+        opts.on('-p', '--poster FILE', description) do |filename|
+          if File.file?(filename)
+            ::Bread::Basket::PosterMaker.new filename
+          else
+            puts "bread-basket can't find the file you specified"
+            exit(0)
+          end
+        end
       end
 
       def run(args)

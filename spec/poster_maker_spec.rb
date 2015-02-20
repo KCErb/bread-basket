@@ -9,6 +9,7 @@ describe Bread::Basket::PosterMaker do
   end
 
   it 'should raise a NoMetaDataError if the file has no front matter' do
-    expect { Bread::Basket::PosterMaker.new(bad_file) }.to raise_error(Bread::Basket::NoMetadataError)
+    error = Bread::Basket::NoMetadataError
+    expect { Bread::Basket::PosterMaker.new(bad_file) }.to raise_error(error)
   end
 end

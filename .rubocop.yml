@@ -1,0 +1,8 @@
+# This cop checks for top-level documentation of classes and modules.
+Style/Documentation:
+  Enabled: false
+
+# This cop checks for snake_case ruby file names.
+# It is off because it triggers on bin/bread-basket shebang.
+Style/FileName:
+  Enabled: false
