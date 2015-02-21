@@ -1,4 +1,6 @@
 # Basket
+[![Build Status](https://travis-ci.org/bread/bread-basket.svg?branch=master)](https://travis-ci.org/bread/bread-basket)
+[![Coverage Status](https://coveralls.io/repos/bread/bread-basket/badge.svg?branch=master)](https://coveralls.io/r/bread/bread-basket?branch=master)
 
 Basket is a tool for publishing scientific findings. It's the last piece of the :bread: framework for scientific computing.
 
