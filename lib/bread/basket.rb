@@ -1,5 +1,10 @@
 require 'yaml'
+require 'thor'
 
 require 'bread/basket/version'
 require 'bread/basket/cli'
-require 'bread/basket/poster_maker'
+
+# poster files
+require 'bread/basket/poster/poster'
+require 'bread/basket/poster/flow_layout'
+require 'bread/basket/poster/block_layout'

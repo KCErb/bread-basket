@@ -3,6 +3,6 @@ Style/Documentation:
   Enabled: false
 
 # This cop checks for snake_case ruby file names.
-# It is off because it triggers on bin/bread-basket shebang.
+# It is off because it triggers on ruby shebang.
 Style/FileName:
   Enabled: false

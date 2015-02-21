@@ -9,5 +9,6 @@ if File.exist?('Gemfile')
   Bundler.require
 end
 
-require 'bread/basket/cli'
-Bread::Basket::CLI.new.run ARGV
+require 'bread/basket'
+
+Bread::Basket::Cli.start(ARGV)
