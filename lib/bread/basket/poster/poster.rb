@@ -16,24 +16,7 @@ module Bread
 
       def self.create(file)
         parse file
-        case @metadata['layout']
-        when 'flow'
-          FlowLayout.new(@metadata, @body)
-        when 'block'
-          BlockLayout.new(@metadata, @body)
-        else
-          handle_else @metadata['layout']
-        end
-      end
-
-      def self.handle_else(layout)
-        if layout
-          puts "Unrecognized layout `#{layout}`, using flow instead"
-          FlowLayout.new(@metadata, @body)
-        else
-          puts "No layout specified;\ndefaulting to flow."
-          FlowLayout.new(@metadata, @body)
-        end
+        Layout.new(@metadata, @body)
       end
 
       def self.parse(filename)

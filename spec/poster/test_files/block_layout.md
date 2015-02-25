@@ -1,5 +1,0 @@
----
-layout: block
----
-
-Hello block!

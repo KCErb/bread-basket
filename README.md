@@ -2,16 +2,19 @@
 [![Build Status](https://travis-ci.org/bread/bread-basket.svg?branch=master)](https://travis-ci.org/bread/bread-basket)
 [![Coverage Status](https://coveralls.io/repos/bread/bread-basket/badge.svg?branch=master)](https://coveralls.io/r/bread/bread-basket?branch=master)
 
-Basket is a tool for publishing scientific findings. It's the last piece of the :bread: framework for scientific computing.
+Basket is a tool for publishing scientific findings.
+It's the last piece of the :bread: framework for scientific computing.
+It is still being built just like the rest of bread, so don't try to use it yet!
 
-For now it just makes scientific posters. In the future though, it should help make
+When it is finished it will make scientific posters.
+In the future though, it should help make
 figures, presentations, and maybe even full journal articles.
 
-## Installation and Usage
+## (Planned) Installation and Usage
 
 Since :bread: hasn't been built (at all) yet, this little piece of the framework
-is pretty lonely. As such the present intended use is just as a command-line utility.
-For making scientific posters. To use it, first get it into your Ruby environment with
+is pretty lonely. So for now it's just a command-line utility
+for making scientific posters. To use it, first get it into your Ruby environment with
 
     $ gem install bread-basket
 
@@ -22,7 +25,7 @@ until I get that built.)
 Once that's installed you should be able to convert a suitable markdown file
 (with your poster's content) and stylesheet into a nice pdf like so
 
-    $ bread-basket -p my-poster.md
+    $ bread-basket poster my-poster.md
 
 and it will produce a pdf that you can take to the printers!
 
