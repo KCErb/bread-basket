@@ -14,22 +14,30 @@ module Bread
 
       EOS
 
-      def self.create(file)
-        parse file
-        Layout.new(@metadata, @body)
-      end
+      class << self
+        attr_accessor :dirpath
 
-      def self.parse(filename)
-        source = File.read(filename)
-        matchdata = source.match(YAML_REGEX)
+        def create(filename)
+          @filename = filename
+          filepath = File.expand_path(filename)
+          @dirpath = File.dirname(filepath)
+          check_file
+          create_layout
+        end
 
-        if matchdata
-          @metadata = YAML.load(matchdata[0])
-          @body = matchdata.post_match
-        else
-          fail NoFrontMatterError, ERROR_MESSAGE
+        def check_file
+          source = File.read(@filename)
+          @matchdata = source.match(YAML_REGEX)
+          fail NoFrontMatterError, ERROR_MESSAGE unless @matchdata
+        end
+
+        def create_layout
+          @metadata = YAML.load(@matchdata[0])
+          @body = @matchdata.post_match
+          Layout.new(@metadata, @body)
         end
       end
+
       # define custom error so that specs only pass if
       # error is caused by lack of front matter
       class NoFrontMatterError < StandardError; end

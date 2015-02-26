@@ -8,9 +8,8 @@ module Bread
           @metadata = metadata
           @body = body
           @layout = determine_layout
-          @stylesheet = metadata['stylesheet'] || template
+          @stylesheet = find_stylesheet(metadata['stylesheet'])
           @css_reader = CSSReader.new(stylesheet)
-          puts @css_reader.inspect if @css_reader.nil?
           create_document
         end
 
@@ -27,18 +26,26 @@ module Bread
           layout
         end
 
+        def find_stylesheet(stylesheet_name)
+          if stylesheet_name
+            Bread::Basket::Poster.dirpath + '/' + stylesheet_name + '.css'
+          else
+            template
+          end
+        end
+
         def flow?
           layout == :flow
         end
 
         def template
-          template = './samples/block_sample.css'
-          template = './samples/flow_sample.css' if flow?
+          template = File.expand_path('./samples/block_sample.css')
+          template = File.expand_path('./samples/flow_sample.css') if flow?
           template
         end
 
         def create_document
-          css_reader.parse(stylesheet)
+          css_reader.parse!
         end
 
         def handle_else(layout)

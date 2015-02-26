@@ -1,17 +1,17 @@
 ---
 layout: block
-stylesheet: example_block
+stylesheet: block_sample
 ---
 
 == Title ==
 Lorem Ipsum Dolor sit Amet
 
 == Authors ==
-Lorem I., Dolor S.^2, and Amet C.
+Lorem I.^1, Dolor S.^2, and Amet C.^1
 
 == Affiliations ==
-- Adipiscing ET, Praesent, Varius, Libero
-- Nulla-Facilisis, Ultrices, Justo
+1. Adipiscing ET, Praesent, Varius, Libero
+2. Nulla-Facilisis, Ultrices, Justo
 
 # Introduction
 

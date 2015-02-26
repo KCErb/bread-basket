@@ -1,6 +1,6 @@
 ---
 layout: flow
-stylesheet: example_flow
+stylesheet: flow_sample
 title: Lorem Ipsum Dolor sit Amet
 authors: Lorem I., Dolor S.[2], and Amet C.
 affiliations:

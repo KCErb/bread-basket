@@ -22,15 +22,16 @@ describe Bread::Basket::Poster::Layout do
     end
 
     it 'defaults to flow template' do
-      expect(subject.stylesheet).to eq('./samples/flow_sample.css')
+      expect(subject.stylesheet).to include('samples/flow_sample.css')
     end
   end
 
   context 'for various values of metadata' do
     it 'uses the given stylesheet' do
-      metadata = { 'stylesheet' => 'jellybeans.css' }
+      metadata = { 'stylesheet' => 'jellybeans' }
+      Bread::Basket::Poster.dirpath = 'path/to/'
       subject = layout_obj(metadata)
-      expect(subject.stylesheet).to eq('jellybeans.css')
+      expect(subject.stylesheet).to include('jellybeans.css')
     end
 
     it 'lays out a flow when layout is unrecognized' do
