@@ -28,10 +28,10 @@ describe Bread::Basket::Poster::Layout do
 
   context 'for various values of metadata' do
     it 'uses the given stylesheet' do
-      metadata = { 'stylesheet' => 'jellybeans' }
-      Bread::Basket::Poster.dirpath = 'path/to/'
+      metadata = { 'stylesheet' => 'flow_sample' }
+      Bread::Basket::Poster.dirpath = './samples'
       subject = layout_obj(metadata)
-      expect(subject.stylesheet).to include('jellybeans.css')
+      expect(subject.stylesheet).to include('flow_sample.css')
     end
 
     it 'lays out a flow when layout is unrecognized' do

@@ -7,7 +7,7 @@
 
 .columns {
   count: 4;
-  top: 1.in 4.in;
+  top: left_logo.bottom + margin, affiliations.bottom + margin;
 }
 
 .body {
@@ -42,6 +42,19 @@
   font-size: 24;
 }
 
+.left_logo {
+  left: left;
+  top: top;
+  src: 'ucair_logo_left.png'
+}
+
+.right_logo {
+  right: right;
+  top: top;
+  src: 'ucair_logo_right.png'
+}
+
+
 #caption {
   font-size: 20;
 }
@@ -51,16 +64,4 @@
   radius: 8;
   color: white;
   font-size: 30;
-}
-
-#left_logo {
-  left: left;
-  top: top;
-  src: 'ucair_logo_left.png'
-}
-
-#right_logo {
-  right: right;
-  top: top;
-  src: 'ucair_logo_right.png'
 }

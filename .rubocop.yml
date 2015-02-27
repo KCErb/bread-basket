@@ -6,3 +6,8 @@ Style/Documentation:
 # It is off because it triggers on ruby shebang.
 Style/FileName:
   Enabled: false
+
+# This cop wisely checks for eval, but I use it carefully so
+# it'll have to be silent
+Lint/Eval:
+  Enabled: false

@@ -9,7 +9,7 @@ module Bread
           @body = body
           @layout = determine_layout
           @stylesheet = find_stylesheet(metadata['stylesheet'])
-          @css_reader = CSSReader.new(stylesheet)
+          @css_reader = CSSReader.new(stylesheet, layout)
           create_document
         end
 
