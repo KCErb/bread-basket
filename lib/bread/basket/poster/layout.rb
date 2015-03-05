@@ -3,14 +3,16 @@ module Bread
     module Poster
       class Layout
         attr_reader :metadata, :body, :stylesheet, :css_reader, :layout
+        attr_accessor :height, :width, :margin, :pending, :determined,
+                      :font_size, :font_family
 
         def initialize(metadata, body)
           @metadata = metadata
           @body = body
           @layout = determine_layout
           @stylesheet = find_stylesheet(metadata['stylesheet'])
-          @css_reader = CSSReader.new(stylesheet, layout)
-          create_document
+          @css_reader = CSSReader.new(stylesheet, self)
+          css_reader.do_your_thing!
         end
 
         def determine_layout
@@ -44,16 +46,32 @@ module Bread
           template
         end
 
-        def create_document
-          css_reader.parse!
-        end
-
         def handle_else(layout)
           if layout
             puts "Unrecognized layout `#{layout}`, using flow instead"
           else
-            puts "No layout specified;\ndefaulting to flow."
+            puts "Warning: No layout specified, defaulting to flow."
           end
+        end
+
+        def create_attribute(key, value)
+          new_key = key.gsub('-','_').to_sym
+          self.class.send(:define_method, new_key) do
+            value
+          end
+        end
+
+        def handle_defaults
+          @pending = []
+          @determined = {}
+          @font_size ||= 36.0
+          @font_family ||= 'Helvetica'
+        end
+
+        def give_up(message)
+          puts '== Aborting =='
+          puts message
+          exit
         end
       end
     end

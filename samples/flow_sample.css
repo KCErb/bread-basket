@@ -2,6 +2,8 @@
   width: 4.ft;
   height: 3.ft;
   margin: 1.in;
+  font-size: 36;
+  font-family: helvetica;
   /*repeat-header: true;*/
 }
 
@@ -10,36 +12,34 @@
   top: left_logo.bottom + margin, affiliations.bottom + margin;
 }
 
-.body {
-  font-size: 36;
-  font-family: helvetica;
-}
-
 .title {
-  left: column[1].left;
-  right: column[2].right;
+  left: columns[1].left;
+  right: columns[2].right;
   top: top;
   height: 3.in;
 
   font-size: 54;
+  text-align: center;
 }
 
 .authors {
-  left: column[1].left;
-  right: column[2].right;
+  left: title.left;
+  right: title.right;
   top: title.bottom + margin;
   height: 2.in;
 
   font-size: 36;
+  text-align: center;
 }
 
 .affiliations {
-  left: column[1].left;
-  right: column[2].right;
+  left: title.left;
+  right: title.right;
   top: authors.bottom + margin;
   height: 1.in;
 
   font-size: 24;
+  text-align: center;
 }
 
 .left_logo {
@@ -59,7 +59,7 @@
   font-size: 20;
 }
 
-#h1 {
+#header {
   background-color: #C00000;
   radius: 8;
   color: white;

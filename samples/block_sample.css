@@ -2,36 +2,39 @@
   width: 4.ft;
   height: 3.ft;
   margin: 1.in;
-  /*repeat-header: true;*/
-}
 
-.body {
   font-size: 36;
   font-family: helvetica;
 }
 
 .title {
-  left: center;
+  left: left + 2 * margin;
+  right: right - 2 * margin;
   top: top;
   height: 3.in;
 
   font-size: 54;
+  text-align: center;
 }
 
 .authors {
-  left: center;
+  left: title.left;
   top: title.bottom + margin;
   height: 2.in;
+  width: title.width;
 
   font-size: 36;
+  text-align: center;
 }
 
 .affiliations {
   left: center;
   top: authors.bottom + margin;
   height: 1.in;
+  width: title.width;
 
   font-size: 24;
+  text-align: center;
 }
 
 .introduction {
