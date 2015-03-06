@@ -62,8 +62,7 @@ module Bread
             layout.create_attribute(method_name, box)
             try_to_resolve_pendings
           end
-          #pending is -1, so need one more to finish
-          try_to_resolve_pendings
+          try_to_resolve_pendings # one last time
         end
 
         def create_styles
@@ -76,7 +75,7 @@ module Bread
         end
 
         def try_to_resolve_pendings
-          layout.pending.each do |name|
+          layout.pending.reverse_each do |name|
             # very limited match on columns for now
             match = name.match /columns\[(\d)\]/
             if match
@@ -84,6 +83,7 @@ module Bread
               index = match[1].to_i
               col_arr[index].try_to_resolve
             else
+              # safe because only 1 argument
               box = layout.send to_method_name(name)
               box.try_to_resolve
             end

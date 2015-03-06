@@ -2,6 +2,7 @@
   width: 4.ft;
   height: 3.ft;
   margin: 1.in;
+
   font-size: 36;
   font-family: helvetica;
 }
@@ -9,16 +10,16 @@
 .columns {
   count: 4;
   /*top: left_logo.bottom + margin, affiliations.bottom + margin;*/
-  top: abox.top, 5;
+  top: title.left + margin;
 }
 
-.abox {
+.left-logo {
   top: 13.7;
   left: columns[0].left;
   width: 15;
 }
 
-.bbox {
+.title {
   top: 24 + margin;
   left: 5;
   width: 15;

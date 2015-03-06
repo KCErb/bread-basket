@@ -13,6 +13,8 @@ module Bread
           @stylesheet = find_stylesheet(metadata['stylesheet'])
           @css_reader = CSSReader.new(stylesheet, self)
           css_reader.do_your_thing!
+          puts columns[0].top
+          puts columns[3].top
         end
 
         def determine_layout
