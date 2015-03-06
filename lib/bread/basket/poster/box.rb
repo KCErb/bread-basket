@@ -46,8 +46,8 @@ module Bread
         end
 
         def finish_box
-          right_width
-          bottom_height
+          right_width unless pending.include? 'left'
+          bottom_height unless pending.include? 'top'
           styles
         end
 
@@ -100,23 +100,37 @@ module Bread
 
         def right_from_width
           @right = left + width
+          add_to_determined('right', @right)
         end
 
         def width_from_right
           @width = right - left
+          add_to_determined('width', @wdith)
         end
 
         def bottom_from_height
           @bottom = top - height
+          add_to_determined('bottom', @bottom)
         end
 
         def height_from_bottom
           @height = top - bottom
+          add_to_determined('height', @height)
         end
 
         def add_numeric_dimension(dimension_name, value)
           instance_variable_set "@#{dimension_name}", value
-          layout.determined[dimension_name] = value
+          add_to_determined(dimension_name, value)
+        end
+
+        def add_to_determined(dimension_name, value)
+          method_name = to_method_name(name) + '.' + dimension_name
+          layout.determined[method_name] = value
+        end
+
+        # TODO Module? Shared class? Only 2 shared methods so far and a regex
+        def to_method_name(name)
+          layout.css_reader.to_method_name(name)
         end
 
         def create_pending_dimension(dimension_name, command_string)
@@ -133,7 +147,7 @@ module Bread
             case command
             when '*', '+', '-', '/'
               command.to_sym
-            when /\A\d+\Z/
+            when layout.css_reader.class::NUMERIC_REGEX
               Float command
             else
               command
@@ -143,7 +157,11 @@ module Bread
 
         def pending_hash(command_array)
           h = {}
-          command_array.each_with_index { |command, index| h[command] = index }
+          command_array.each_with_index do |command, index|
+            if command.is_a? String and command != '(' and command != ')'
+              h[command] = index
+            end
+          end
           h
         end
 
@@ -151,11 +169,7 @@ module Bread
           pending.each do |dimension|
             hash = self.send dimension
             try_dimension(dimension, hash)
-            if hash[:pending].empty? and safe?(hash[:command])
-              command_string = hash[:command].join(' ')
-              value = eval command_string
-              instance_variable_set "@#{dimension}", value
-            end
+            resolve_dimension(dimension, hash) if ready_to_resolve? hash
           end
         end
 
@@ -169,9 +183,21 @@ module Bread
           end
         end
 
+        def resolve_dimension(dimension, hash)
+          command_string = hash[:command].join(' ')
+          value = eval command_string
+          instance_variable_set "@#{dimension}", value
+          pending.delete dimension
+          layout.pending.delete name
+        end
+
+        def ready_to_resolve?(hash)
+          hash[:pending].empty? and safe?(hash[:command])
+        end
+
         def safe?(command_array)
           command_array.all? do |elem|
-            elem.is_a? Numeric or [:+, :-, :/, :*].include? elem
+            elem.is_a? Numeric or [:+, :-, :/, :*, '(', ')'].include? elem
           end
         end
 

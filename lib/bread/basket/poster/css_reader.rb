@@ -10,9 +10,9 @@ module Bread
         LAYOUT_FAIL = 'Your stylesheet must include the .layout selector.'
         # measurements get `eval`d so guard input! This list of options
         # comes from prawn/measurement_extensions
-        MEASUREMENT_REGEX = /\A\d+\.(mm|cm|dm|m|in|yd|ft|pt)\Z/
-        NUMERIC_REGEX = /\A\d+\Z/
-        HASH_SELECTOR_REGEX = /\A#(\w+\-?)*\Z/
+        MEASUREMENT_REGEX = /\A\d+\.(mm|cm|dm|m|in|yd|ft|pt)\z/
+        NUMERIC_REGEX = /\A\d+(?:\.\d+)?\z/
+        HASH_SELECTOR_REGEX = /\A#(\w+\-?)*\z/
 
         def initialize(stylesheet, layout)
           @layout = layout
@@ -24,6 +24,7 @@ module Bread
           init_layout
           create_columns if layout.flow?
           create_bounding_boxes
+          create_styles
         end
 
         def init_layout
@@ -55,26 +56,42 @@ module Bread
           parser.each_selector do |selector, declarations|
             next if %w(.layout .columns).include? selector
             next if selector =~ HASH_SELECTOR_REGEX
-            puts selector
+            method_name = to_method_name selector
             specs = rules_to_specs declarations
             box = Box.new selector, layout, specs
-            layout.create_attribute(selector, box)
+            layout.create_attribute(method_name, box)
             try_to_resolve_pendings
+          end
+          #pending is -1, so need one more to finish
+          try_to_resolve_pendings
+        end
+
+        def create_styles
+          parser.each_selector do |selector, declarations|
+            next unless selector =~ HASH_SELECTOR_REGEX
+            method_name = to_method_name selector
+            specs = rules_to_specs declarations
+            layout.create_attribute(method_name, specs)
           end
         end
 
         def try_to_resolve_pendings
-          pending.each do |name|
+          layout.pending.each do |name|
             # very limited match on columns for now
             match = name.match /columns\[(\d)\]/
             if match
               col_arr = layout.send 'columns'
-              col_arr[match[1]].try_to_resolve
+              index = match[1].to_i
+              col_arr[index].try_to_resolve
             else
-              box = layout.send name
+              box = layout.send to_method_name(name)
               box.try_to_resolve
             end
           end
+        end
+
+        def to_method_name(name)
+          name.sub('.','').sub('-','_').sub('#','')
         end
 
         def rules_to_specs(css_rules)

@@ -66,6 +66,10 @@ module Bread
           @determined = {}
           @font_size ||= 36.0
           @font_family ||= 'Helvetica'
+          # add these three to the determined hash for reference
+          %w(width height margin).each do |method_name|
+            determined[method_name] = eval("@#{method_name}")
+          end
         end
 
         def give_up(message)

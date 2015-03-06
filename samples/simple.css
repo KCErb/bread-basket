@@ -9,5 +9,25 @@
 .columns {
   count: 4;
   /*top: left_logo.bottom + margin, affiliations.bottom + margin;*/
-  top: 10, 5;
+  top: abox.top, 5;
+}
+
+.abox {
+  top: 13.7;
+  left: columns[0].left;
+  width: 15;
+}
+
+.bbox {
+  top: 24 + margin;
+  left: 5;
+  width: 15;
+}
+
+#header {
+  background-color: #fff;
+}
+
+#caption {
+  font-size: 36;
 }
