@@ -9,7 +9,7 @@
 
 .columns {
   count: 4;
-  top: left_logo.bottom + margin, affiliations.bottom + margin;
+  top: top + 2 * margin, affiliations.bottom + margin;
 }
 
 .title {
@@ -40,18 +40,6 @@
 
   font-size: 24;
   text-align: center;
-}
-
-.left_logo {
-  left: left;
-  top: top;
-  src: 'ucair_logo_left.png'
-}
-
-.right_logo {
-  right: right;
-  top: top;
-  src: 'ucair_logo_right.png'
 }
 
 

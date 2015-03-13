@@ -6,19 +6,18 @@
   font-size: 36;
   font-family: helvetica;
 }
-
+/*
 .columns {
   count: 4;
   top: title.left + margin;
 }
 
 .left-logo {
-  src: ucair_logo.png;
-  top: top;
-  left: left;
+  top: 13.7;
+  left: columns[0].left;
+  width: 15;
 }
 
-/*
 .title {
   top: 24 + margin;
   left: 5;

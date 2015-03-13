@@ -3,8 +3,8 @@ module Bread
     module Poster
       class Layout
         attr_reader :metadata, :body, :stylesheet, :css_reader, :layout
-        attr_accessor :height, :width, :margin, :pending, :determined,
-                      :font_size, :font_family
+        attr_accessor :height, :width, :left, :right, :top, :bottom, :margin,
+                      :pending, :determined, :font_size, :font_family
 
         def initialize(metadata, body)
           @metadata = metadata
@@ -13,8 +13,6 @@ module Bread
           @stylesheet = find_stylesheet(metadata['stylesheet'])
           @css_reader = CSSReader.new(stylesheet, self)
           css_reader.do_your_thing!
-          puts columns[0].top
-          puts columns[3].top
         end
 
         def determine_layout
@@ -52,15 +50,17 @@ module Bread
           if layout
             puts "Unrecognized layout `#{layout}`, using flow instead"
           else
-            puts "Warning: No layout specified, defaulting to flow."
+            puts 'Warning: No layout specified, defaulting to flow.'
           end
         end
 
         def create_attribute(key, value)
-          new_key = key.gsub('-','_').to_sym
+          new_key = key.gsub('-', '_').sub('.', '').to_sym
           self.class.send(:define_method, new_key) do
             value
           end
+          # This is called at end of each attribute's definition
+          try_to_resolve_pendings unless pending.nil?
         end
 
         def handle_defaults
@@ -68,9 +68,23 @@ module Bread
           @determined = {}
           @font_size ||= 36.0
           @font_family ||= 'Helvetica'
-          # add these three to the determined hash for reference
-          %w(width height margin).each do |method_name|
+          # add dimensions to the determined hash for reference
+          %w(width height left right top bottom margin).each do |method_name|
             determined[method_name] = eval("@#{method_name}")
+          end
+        end
+
+        def try_to_resolve_pendings
+          pending.reverse_each do |name|
+            # very limited match on columns for now
+            match = name.match(/columns\[(\d)\]/)
+            if match
+              index = match[1].to_i
+              columns[index].try_to_resolve
+            else
+              box = send name.sub('.', '').sub('-', '_')
+              box.try_to_resolve
+            end
           end
         end
 

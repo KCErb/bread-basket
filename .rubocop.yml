@@ -11,3 +11,8 @@ Style/FileName:
 # it'll have to be silent
 Lint/Eval:
   Enabled: false
+
+# My namespace puts methods 5 indents in 80->90
+# many methods add at least 1 more indent 90->92
+Metrics/LineLength:
+  Max: 92

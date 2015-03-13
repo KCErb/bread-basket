@@ -10,7 +10,7 @@ module Bread
           check_specs
           @count = specs['count'].to_i
           init_tops
-          init_width
+          init_widths
           init_lefts
           create_boxes
         end
@@ -42,16 +42,19 @@ module Bread
           arr + specs['top']
         end
 
-        def init_width
-          margin_spacing = 2 * layout.margin
-          columns_width = layout.width - margin_spacing
+        def init_widths
           col_spacing = layout.font_size * (count - 1) # from Prawn
-          @width = (columns_width - col_spacing ) / count.to_f
+          @width = (columns_width - col_spacing) / count.to_f
+        end
+
+        def columns_width
+          total_margin_space = 2 * layout.margin
+          layout.width - total_margin_space
         end
 
         def init_lefts
           column_width = width + layout.font_size # again from Prawn
-          @lefts = count.times.inject([layout.margin]) do |a, idx|
+          @lefts = count.times.inject([layout.margin]) do |a|
             a << a[-1] + column_width
           end
           @lefts.pop
@@ -64,16 +67,19 @@ module Bread
                           layout,
                           'top' => tops[index],
                           'left' => lefts[index],
-                          'width' => width
+                          'width' => width,
+                          'bottom' => 'bottom + margin'
             @boxes << box
           end
         end
 
         def check_specs
-          unless ['top', 'count'].all?{ |attr| specs.key? attr }
-            message = ".columns selector must include top and count to be valid"
-            layout.give_up(message)
-          end
+          message = '.columns selector must include top and count to be valid'
+          layout.give_up(message) unless top_and_count?
+        end
+
+        def top_and_count?
+          %w(top count).all? { |attr| specs.key? attr }
         end
       end
     end

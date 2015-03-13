@@ -84,15 +84,3 @@
   color: white;
   font-size: 30;
 }
-
-#left_logo {
-  left: left;
-  top: top;
-  src: 'ucair_logo_left.png'
-}
-
-#right_logo {
-  right: right;
-  top: top;
-  src: 'ucair_logo_right.png'
-}

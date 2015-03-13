@@ -3,21 +3,17 @@ module Bread
     module Poster
       class CSSReader
         include CssParser
+        include UnitsHelper
         attr_reader :parser, :layout
 
         COLUMNS_FAIL = 'To use a flow layout your stylesheet must include ' \
                        '.columns selector.'
         LAYOUT_FAIL = 'Your stylesheet must include the .layout selector.'
-        # measurements get `eval`d so guard input! This list of options
-        # comes from prawn/measurement_extensions
-        MEASUREMENT_REGEX = /\A\d+\.(mm|cm|dm|m|in|yd|ft|pt)\z/
-        NUMERIC_REGEX = /\A\d+(?:\.\d+)?\z/
-        HASH_SELECTOR_REGEX = /\A#(\w+\-?)*\z/
 
-        def initialize(stylesheet, layout)
+        def initialize(stylesheet_path, layout)
           @layout = layout
           @parser = CssParser::Parser.new
-          @parser.load_file!(stylesheet)
+          @parser.load_file!(stylesheet_path)
         end
 
         def do_your_thing!
@@ -36,6 +32,11 @@ module Bread
         end
 
         def create_layout_attributes(specs)
+          attributes_from_specs(specs)
+          finish_layout_box
+        end
+
+        def attributes_from_specs(specs)
           layout.width = specs.delete 'width'
           layout.height = specs.delete 'height'
           layout.margin = specs.delete 'margin' || 0
@@ -44,25 +45,43 @@ module Bread
           end
         end
 
+        def finish_layout_box
+          layout.left = 0
+          layout.right = layout.width
+          layout.bottom = 0
+          layout.top = layout.height
+        end
+
         def create_columns
           columns = parser.find_by_selector '.columns'
           layout.give_up COLUMNS_FAIL if columns.empty?
           specs = rules_to_specs(columns[0])
           columns = Columns.new specs, layout
-          layout.create_attribute('columns',columns.boxes)
+          layout.create_attribute('columns', columns.boxes)
         end
 
         def create_bounding_boxes
           parser.each_selector do |selector, declarations|
-            next if %w(.layout .columns).include? selector
-            next if selector =~ HASH_SELECTOR_REGEX
+            next if skip_selector? selector
             method_name = to_method_name selector
             specs = rules_to_specs declarations
-            box = Box.new selector, layout, specs
+            box = create_box selector, layout, specs
             layout.create_attribute(method_name, box)
-            try_to_resolve_pendings
           end
-          try_to_resolve_pendings # one last time
+        end
+
+        def skip_selector?(selector)
+          old_selector = %w(.layout .columns).include? selector
+          hash_selector = selector =~ HASH_SELECTOR_REGEX
+          old_selector || hash_selector
+        end
+
+        def create_box(selector, layout, specs)
+          if specs.key?('src')
+            ImageBox.new selector, layout, specs
+          else
+            Box.new selector, layout, specs
+          end
         end
 
         def create_styles
@@ -74,27 +93,9 @@ module Bread
           end
         end
 
-        def try_to_resolve_pendings
-          layout.pending.reverse_each do |name|
-            # very limited match on columns for now
-            match = name.match /columns\[(\d)\]/
-            if match
-              col_arr = layout.send 'columns'
-              index = match[1].to_i
-              col_arr[index].try_to_resolve
-            else
-              # safe because only 1 argument
-              box = layout.send to_method_name(name)
-              box.try_to_resolve
-            end
-          end
-        end
-
-        def to_method_name(name)
-          name.sub('.','').sub('-','_').sub('#','')
-        end
-
         def rules_to_specs(css_rules)
+          # rule => "top: title.bottom, authors.bottom"
+          # spec => { top: ['title.bottom', 'authors.bottom'] }
           rules_arr = css_rules.split(';')
           hash = {}
 
@@ -110,32 +111,12 @@ module Bread
           rule_arr = rule.split(':')
           key = rule_arr[0].strip
           value_arr = rule_arr[1].strip.split(',')
-          value_arr.map!{ |e| e.strip }
+          value_arr.map!(&:strip)
           hash[key] = value_arr
         end
 
-        def convert_units(value)
-          case value
-          when MEASUREMENT_REGEX
-            eval(value)
-          when NUMERIC_REGEX
-            Float value
-          else
-            value.strip!
-            new_value = convert_inner_units(value)
-          end
-        end
-
-        def convert_inner_units(command_string)
-          commands = command_string.split(' ')
-          commands.map! do |command|
-            if command =~ MEASUREMENT_REGEX
-              eval(command)
-            else
-              command
-            end
-          end
-          commands.join(' ')
+        def to_method_name(hash_selector)
+          hash_selector.sub('#', '').sub('.', '').sub('-', '_')
         end
       end
     end
