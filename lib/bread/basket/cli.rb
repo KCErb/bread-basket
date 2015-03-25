@@ -3,7 +3,7 @@ module Bread
     class Cli < Thor
       desc 'poster FILENAME', 'Creates a scientific poster from FILENAME'
       def poster(file)
-        Bread::Basket::Poster.create(file)
+        Bread::Basket::Poster::PosterMaker.new(file)
       end
     end
   end

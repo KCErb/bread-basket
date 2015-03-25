@@ -1,42 +1,112 @@
 describe Bread::Basket::Poster::CSSReader do
-  context 'when given the test css' do
-    let(:css) { File.expand_path('test_files/test.css') }
-    let(:metadata) { { key: 'value'  } }
-    let(:body) { 'Nom nom nom' }
-    let(:layout) { Bread::Basket::Poster::Layout.new(metadata, body) }
-    before(:each) do
-      allow(layout).to receive(:flow?) { true }
+  # This will actually run through all kinds of boxes, dimensions helpers
+  # and the like, but I'm trying to only spec out the jobs of css_reader.
+  context 'when given the basic_flow stylesheet' do
+    # Using a before block here because I want to alter the load path without
+    # actually loading a markdown file from the start
+    before(:all) do
+      metadata = { 'stylesheet' => 'basic_flow'  }
+      body = 'Nom nom nom'
+      Bread::Basket::Poster.dir_path = './spec/poster/test_files'
+      @layout = Bread::Basket::Poster::Layout.new(metadata, body)
     end
 
-    subject { Bread::Basket::Poster::CSSReader.new(css, layout) }
+    describe 'css_reader sets up the layout properties' do
+      subject { @layout }
+      its(:top)    { should eq(720) }
+      its(:bottom) { should eq(0) }
+      its(:height) { should eq(720) }
+      its(:left)   { should eq(0) }
+      its(:right)  { should eq(1080) }
+      its(:width)  { should eq(1080) }
 
-    it 'turns rules into a hash with array of values' do
-      expect(subject.rules_to_specs('key: value;')).to eq 'key' => 'value'
+      its(:font_size)  { should eq(24) }
+      its(:font_family)  { should eq('times') }
     end
 
-    it 'turns number strings into numerics' do
-      expect(subject.rules_to_specs('key: 12;')).to eq 'key' => 12
+    describe 'css_reader sets up columns[0]' do
+      subject { @layout.columns[0] }
+      its(:top)    { should eq(648) }
+      its(:bottom) { should eq(5) }
+      its(:height) { should eq(643) }
+      its(:left)   { should eq(5) }
+      its(:right)  { should eq(254.5) }
+      its(:width)  { should eq(249.5) }
     end
 
-    it 'turns number strings with units into numerics' do
-      # 72 because it goes through prawn to do the conversion
-      expect(subject.rules_to_specs('key: 1.in;')).to eq 'key' => 72
+    describe 'css_reader sets up columns[1]' do
+      subject { @layout.columns[1] }
+      its(:top)    { should eq(576) }
+      its(:bottom) { should eq(5) }
+      its(:height) { should eq(571) }
+      its(:left)   { should eq(278.5) }
+      its(:right)  { should eq(528) }
+      its(:width)  { should eq(249.5) }
     end
 
-    it "splits multiparameter fields nicely and doesn't try to eval them" do
-      rule = 'key: bread - bite, bread + bite;'
-      hash = { 'key' => ['bread - bite', 'bread + bite'] }
-      expect(subject.rules_to_specs rule).to eq hash
+    describe 'css_reader sets up the bounds for stretchy box' do
+      subject { @layout.stretchy_box }
+      its(:top)    { should eq(100) }
+      its(:bottom) { should eq(:stretchy) }
+      its(:height) { should eq(:stretchy) }
+      its(:left)   { should eq(200) }
+      its(:right)  { should eq(700) }
+      its(:width)  { should eq(500) }
+      it 'has font-size style' do
+        font_size = subject.styles['font-size']
+        expect(font_size).to eq 22
+      end
+    end
+
+    describe 'css_reader sets up the bounds for image' do
+      subject { @layout.image }
+      its(:top)    { should eq(720) }
+      its(:bottom) { should eq(308) }
+      its(:height) { should eq(412) }
+      its(:left)   { should eq(576) }
+      its(:right)  { should eq(1080) }
+      its(:width)  { should eq(504) }
+    end
+
+    describe 'css_reader creates header style' do
+      subject { @layout.header }
+      it 'should have background color in its hash' do
+        expect(subject['background-color']).to eq('#fff')
+      end
+    end
+
+    describe "css_reader's other functions" do
+      subject { @layout.css_reader }
+
+      it 'convert string css rules string into hash of strings' do
+        css_rules = 'bread: howdy; basket: belly'
+        specs_hash = { 'bread' => 'howdy', 'basket' => 'belly' }
+        expect(subject.rules_to_specs(css_rules)).to eq specs_hash
+      end
+
+      it 'convert css rules with commas into hash of arrays' do
+        css_rules = 'bread: howdy, belly'
+        specs_hash = { 'bread' => %w(howdy belly) }
+        expect(subject.rules_to_specs(css_rules)).to eq specs_hash
+      end
+
+      it 'convert selector names into valid ruby names' do
+        selector_name = '#a-nice-name.'
+        method_name = 'a_nice_name'
+        expect(subject.to_method_name(selector_name)).to eq method_name
+      end
     end
   end
 
-  context 'when given a block css' do
-    let(:block_file) { File.expand_path('./test_files/test_block.css') }
-    subject { Bread::Basket::Poster::CSSReader.new(block_file, :block) }
-
+  context 'when given the basic_block stylesheet' do
     it 'fails if mismatch between css and layout type' do
-      reader  = Bread::Basket::Poster::CSSReader.new(block_file, :flow)
-      expect { reader.do_your_thing! }.to raise_error
+      metadata = { 'stylesheet' => 'basic_block', 'layout' => 'flow'  }
+      body = 'Nom nom nom'
+      Bread::Basket::Poster.dir_path = './spec/poster/test_files'
+
+      expect do
+        Bread::Basket::Poster::Layout.new(metadata, body)
+      end.to raise_error SystemExit
     end
   end
 end

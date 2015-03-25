@@ -4,14 +4,16 @@ module Bread
       class Box
         include UnitsHelper
         # Box does most of the heavy lifting of the self-referential css
-        # so it's a little confusing. I'm planning to write up an explanation
-        # on the wiki.
+        # so it's a little confusing. It passes dimensions off to the dimensions
+        # helper and holds the methods for setting dimensions as either pending
+        # or determined and how to resolve those issues.
         attr_reader :selector_name, :method_name, :layout, :specs, :top, :left,
-                    :width, :height, :bottom, :right, :pending, :unfinished
+                    :width, :height, :bottom, :right, :pending, :unfinished,
+                    :styles, :helper
 
         def initialize(name, layout, specs = {})
           @selector_name = name
-          @method_name = name.sub('.', '').sub('-', '_')
+          @method_name = name.sub('.', '').gsub('-', '_')
           @layout = layout
           @specs = specs
           @pending = []
@@ -22,7 +24,7 @@ module Bread
         end
 
         def setup_dimensions
-          DimensionsHelper.new(self, layout, specs)
+          @helper = DimensionsHelper.new(self, layout, specs)
           layout.pending << selector_name unless pending.empty?
         end
 
@@ -44,7 +46,7 @@ module Bread
         def try_dimension(dimensions_hash)
           dimensions_hash[:pending].delete_if do |dimension_key, index|
             value = layout.determined[dimension_key]
-            if value
+            if value && value != :stretchy
               command_arr = dimensions_hash[:command]
               command_arr[index] = value
             end
@@ -105,7 +107,7 @@ module Bread
           %w(top left width height bottom right).each do |dim|
             str << "#{dim}: #{send(dim)}; "
           end
-          str
+          str.strip
         end
       end
     end

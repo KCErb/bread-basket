@@ -1,0 +1,31 @@
+.layout {
+  width: 1080;
+  height: 720;
+  margin: 5;
+
+  font-size: 24;
+  font-family: times;
+}
+
+.columns {
+  count: 4;
+  top: 648, 576;
+}
+
+.stretchy-box {
+  top: 100;
+  left: 200;
+  width: 500;
+
+  font-size: 22;
+}
+
+.image {
+  top: 720;
+  right: 1080;
+  src: dragon.png
+}
+
+#header {
+  background-color: #fff;
+}

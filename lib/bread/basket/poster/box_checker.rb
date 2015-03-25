@@ -46,12 +46,12 @@ module Bread
         end
 
         def warn_right
-          puts "Warning: For selector #{box.name}, left, width AND right were " \
+          puts "Warning: For selector #{box.selector_name}, left, width AND right were " \
                 'provided. Right will be ignored.'
         end
 
         def warn_bottom
-          puts "Warning: For selector #{box.name}, top, height AND bottom were " \
+          puts "Warning: For selector #{box.selector_name}, top, height AND bottom were " \
                 'provided. Bottom will be ignored.'
         end
       end

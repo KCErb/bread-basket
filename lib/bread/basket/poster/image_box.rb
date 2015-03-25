@@ -10,12 +10,17 @@ module Bread
         end
 
         def image_specs
-          image_path = Bread::Basket::Poster.dirpath + '/' + specs['src']
+          image_path = Bread::Basket::Poster.dir_path + '/' + specs['src']
           size = FastImage.size image_path
-          # TODO: catch read fail, size will be nil
-          # TODO: Assume printing at 72dpi, make that configurable?
+          read_fail(image_path) if size.nil?
+          # TODO: Learn how printing resolution in images works with prawn
           specs['width'] ||= size[0]
           specs['height'] ||= size[1]
+        end
+
+        def read_fail(image_path)
+          message = "Couldn't find image for #{selector_name} at #{image_path}."
+          layout.give_up(message)
         end
       end
     end

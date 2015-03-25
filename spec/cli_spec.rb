@@ -6,7 +6,7 @@ describe Bread::Basket::Cli do
     let(:file) { 'example.md' }
 
     it 'gives file to Poster' do
-      expect(Bread::Basket::Poster).to receive(:create).with(file)
+      expect(Bread::Basket::Poster::PosterMaker).to receive(:new).with(file)
       subject.poster(file)
     end
   end

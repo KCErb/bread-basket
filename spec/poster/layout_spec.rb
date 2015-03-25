@@ -24,12 +24,17 @@ describe Bread::Basket::Poster::Layout do
     it 'defaults to flow template' do
       expect(subject.stylesheet).to include('samples/flow_sample.css')
     end
+
+    it 'creates attributes for itself and cleans up method name' do
+      subject.create_attribute('.jelly-beans', :magic)
+      expect(subject.jelly_beans).to eq :magic
+    end
   end
 
   context 'for various values of metadata' do
     it 'uses the given stylesheet' do
       metadata = { 'stylesheet' => 'flow_sample' }
-      Bread::Basket::Poster.dirpath = './samples'
+      Bread::Basket::Poster.dir_path = './samples'
       subject = layout_obj(metadata)
       expect(subject.stylesheet).to include('flow_sample.css')
     end
@@ -37,13 +42,13 @@ describe Bread::Basket::Poster::Layout do
     it 'lays out a flow when layout is unrecognized' do
       metadata = { 'layout' => 'jellybean' }
       subject = layout_obj(metadata)
-      expect(subject.layout).to eq(:flow)
+      expect(subject.type).to eq(:flow)
     end
 
     it 'lays out a flow when layout is nil' do
       metadata = {}
       subject = layout_obj(metadata)
-      expect(subject.layout).to eq(:flow)
+      expect(subject.type).to eq(:flow)
     end
   end
 
@@ -52,7 +57,7 @@ describe Bread::Basket::Poster::Layout do
     subject { layout_obj(metadata) }
 
     it 'lays out a flow' do
-      expect(subject.layout).to eq(:flow)
+      expect(subject.type).to eq(:flow)
     end
 
     it 'knows that flows flow' do
@@ -65,7 +70,7 @@ describe Bread::Basket::Poster::Layout do
     subject { layout_obj(metadata) }
 
     it 'lays out a block' do
-      expect(subject.layout).to eq(:block)
+      expect(subject.type).to eq(:block)
     end
 
     it "knows that blocks don't flow" do

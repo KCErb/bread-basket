@@ -1,26 +1,26 @@
 module Bread
   module Basket
     module Poster
-      YAML_REGEX = /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
-      ERROR_MESSAGE = <<-EOS
+      class PosterMaker
+        YAML_REGEX = /^(---\s*\n.*?\n?)^(---\s*$\n?)/m
+        ERROR_MESSAGE = <<-EOS
 
 
-      Your file must start with a YAML front matter.
-      For example:
-      ---
-      layout: flow
-      stylesheet: my_template
-      ---
+        Your file must start with a YAML front matter.
+        For example:
+        ---
+        layout: flow
+        stylesheet: my_template
+        ---
 
-      EOS
+        EOS
 
-      class << self
-        attr_accessor :dirpath
+        attr_accessor :layout
 
-        def create(filename)
+        def initialize(filename)
           @filename = filename
           filepath = File.expand_path(filename)
-          @dirpath = File.dirname(filepath)
+          Poster.dir_path = File.dirname(filepath)
           check_file
           create_layout
         end
@@ -34,7 +34,7 @@ module Bread
         def create_layout
           @metadata = YAML.load(@matchdata[0])
           @body = @matchdata.post_match
-          Layout.new(@metadata, @body)
+          @layout = Layout.new(@metadata, @body)
         end
       end
 

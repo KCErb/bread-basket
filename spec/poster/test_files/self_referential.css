@@ -1,0 +1,101 @@
+.layout {
+  width: 1080;
+  height: 720;
+  margin: 5;
+
+  font-size: 24;
+  font-family: times;
+}
+
+.columns {
+  count: 4;
+  top: simple-box.bottom, stretchy-box.bottom - margin;
+}
+
+.simple-box {
+  left: 200;
+  top: 700;
+  width: 500;
+  height: 200;
+}
+
+.stretchy-box {
+  left: 725;
+  top: 100;
+  width: 500;
+}
+
+
+.box-a {
+  left: box-b.left;
+  top: 700;
+  width: 125;
+  height: box-c.height;
+}
+
+.box-b {
+  left: 200;
+  top: box-a.top;
+  width: 250;
+  height: box-c.height;
+}
+
+.box-c {
+  left: box-b.left;
+  top: box-a.top;
+  width: 375;
+  height: 125;
+}
+
+.math {
+  left: 2 * margin;
+  top: box-a.bottom + margin;
+  width: ( box-c.width - margin ) / 2;
+  height: drgn-image.height / 3 + font-size;
+}
+
+.no-width {
+  left: 900;
+  right: 1000;
+  top: 50;
+  height: 50;
+}
+
+.no-left {
+  width: 80;
+  right: 1080;
+  top: 50;
+  height: 50;
+}
+
+.no-top {
+  left: 80;
+  width: 250;
+  height: 55;
+  bottom: 0;
+}
+
+.horizontally-overdetermined {
+  left: 80;
+  width: 250;
+  right: 100;
+  top: 55;
+}
+
+.vertically-overdetermined {
+  left: 80;
+  width: 250;
+  top: 55;
+  bottom: 7;
+  height: 12;
+}
+
+.drgn-image {
+  top: 720;
+  right: 1080;
+  src: dragon.png
+}
+
+#header {
+  background-color: #fff;
+}

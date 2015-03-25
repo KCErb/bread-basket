@@ -2,6 +2,11 @@ module Bread
   module Basket
     module Poster
       class CSSReader
+        # The CSSReader reads in the css and then creates:
+        #  - layout
+        #  - columns (if flow)
+        #  - boxes (Box or ImageBox)
+        # and then attaches #-styles to the layout help
         include CssParser
         include UnitsHelper
         attr_reader :parser, :layout
@@ -116,7 +121,7 @@ module Bread
         end
 
         def to_method_name(hash_selector)
-          hash_selector.sub('#', '').sub('.', '').sub('-', '_')
+          hash_selector.sub('#', '').sub('.', '').gsub('-', '_')
         end
       end
     end

@@ -63,7 +63,7 @@ module Bread
           when layout.css_reader.class::NUMERIC_REGEX
             Float command
           else
-            command
+            command.gsub('-', '_')
           end
         end
 
@@ -78,7 +78,7 @@ module Bread
         end
 
         def frame_box
-          # from two of left, right, width, determine other
+          # from two of left, right, width, determine other dimension
           # bottom, height are optional unless top is missing
           left_right_width
           top_bottom_height
@@ -90,8 +90,6 @@ module Bread
           missing = difference.empty? ? 'right' : difference[0]
           missing_dimension given, missing
         end
-
-        ## CHECK MAKE PENDING that it does what it should!
 
         def top_bottom_height
           given = checker.vertical_dimensions
@@ -115,8 +113,8 @@ module Bread
         end
 
         def make_stretchy
-          box.add_to_determined 'bottom', :none
-          box.add_to_determined 'height', :none
+          box.add_to_determined 'bottom', :stretchy
+          box.add_to_determined 'height', :stretchy
         end
       end
     end

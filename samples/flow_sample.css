@@ -9,14 +9,14 @@
 
 .columns {
   count: 4;
-  top: top + 2 * margin, affiliations.bottom + margin;
+  top: 2 * margin, affiliations.bottom + margin;
 }
 
 .title {
   left: columns[1].left;
   right: columns[2].right;
   top: top;
-  height: 3.in;
+  /*height: 3.in;*/
 
   font-size: 54;
   text-align: center;

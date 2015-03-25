@@ -2,42 +2,44 @@ module Bread
   module Basket
     module Poster
       class Layout
-        attr_reader :metadata, :body, :stylesheet, :css_reader, :layout
+        attr_reader :metadata, :body, :stylesheet, :css_reader, :type
         attr_accessor :height, :width, :left, :right, :top, :bottom, :margin,
                       :pending, :determined, :font_size, :font_family
 
         def initialize(metadata, body)
           @metadata = metadata
           @body = body
-          @layout = determine_layout
+          @type = determine_type
           @stylesheet = find_stylesheet(metadata['stylesheet'])
           @css_reader = CSSReader.new(stylesheet, self)
           css_reader.do_your_thing!
         end
 
-        def determine_layout
+        def determine_type
           case @metadata['layout']
           when 'block'
-            layout = :block
+            :block
           when 'flow'
-            layout = :flow
+            :flow
           else
             handle_else @metadata['layout']
-            layout = :flow
+            :flow
           end
-          layout
         end
 
         def find_stylesheet(stylesheet_name)
           if stylesheet_name
-            Bread::Basket::Poster.dirpath + '/' + stylesheet_name + '.css'
+            path = Bread::Basket::Poster.dir_path + '/' + stylesheet_name
+            path += '.css' unless stylesheet_name.include?('.css')
+            path
           else
+            puts 'Warning: no stylesheet given, using template instead.'
             template
           end
         end
 
         def flow?
-          layout == :flow
+          type == :flow
         end
 
         def template
@@ -48,7 +50,7 @@ module Bread
 
         def handle_else(layout)
           if layout
-            puts "Unrecognized layout `#{layout}`, using flow instead"
+            puts "Warning: Unrecognized layout `#{layout}`, using flow instead"
           else
             puts 'Warning: No layout specified, defaulting to flow.'
           end
@@ -69,7 +71,10 @@ module Bread
           @font_size ||= 36.0
           @font_family ||= 'Helvetica'
           # add dimensions to the determined hash for reference
-          %w(width height left right top bottom margin).each do |method_name|
+          # open to a better solution here :)
+          %w(width height left right top bottom margin
+             font_size font_family
+          ).each do |method_name|
             determined[method_name] = eval("@#{method_name}")
           end
         end
@@ -82,7 +87,7 @@ module Bread
               index = match[1].to_i
               columns[index].try_to_resolve
             else
-              box = send name.sub('.', '').sub('-', '_')
+              box = send name.sub('.', '').gsub('-', '_')
               box.try_to_resolve
             end
           end

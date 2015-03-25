@@ -2,6 +2,8 @@ module Bread
   module Basket
     module Poster
       class Columns
+        # Columns are a special type of bounding box in prawn so they get their
+        # own class here to handle their dimensions.
         attr_reader :specs, :count, :layout, :tops, :width, :lefts, :boxes
 
         def initialize(specs, layout)
