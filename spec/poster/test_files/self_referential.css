@@ -75,6 +75,13 @@
   bottom: 0;
 }
 
+.top-and-height {
+  left: 89;
+  width: 251;
+  top: 70;
+  height: 55;
+}
+
 .horizontally-overdetermined {
   left: 80;
   width: 250;

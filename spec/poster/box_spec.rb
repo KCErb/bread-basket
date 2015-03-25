@@ -77,6 +77,13 @@ describe Bread::Basket::Poster::Box do
       its(:top)  { should eq 55 }
     end
 
+    describe 'top and height' do
+      subject { @layout.top_and_height }
+      its(:top)  { should eq 70 }
+      its(:height)  { should eq 55 }
+      its(:bottom)  { should eq 15 }
+    end
+
     describe 'when horizontally overdetermined' do
       subject { @layout.horizontally_overdetermined }
       it 'ignores the `right` specification' do
