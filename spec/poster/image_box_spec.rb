@@ -4,10 +4,9 @@ describe Bread::Basket::Poster::ImageBox do
   # is a subclass of Box
   before(:all) do
     metadata = { 'stylesheet' => 'self_referential'  }
-    body = 'Nom nom nom'
     Bread::Basket::Poster.dir_path = './spec/poster/test_files'
     @name = '.simple-selector'
-    @layout = Bread::Basket::Poster::Layout.new(metadata, body)
+    @layout = Bread::Basket::Poster::Layout.new(metadata)
   end
 
   describe 'image has dimensions' do

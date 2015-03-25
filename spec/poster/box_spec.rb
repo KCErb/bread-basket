@@ -2,10 +2,9 @@ describe Bread::Basket::Poster::Box do
   # explanation of before all in css_reader_spec
   before(:all) do
     metadata = { 'stylesheet' => 'self_referential'  }
-    body = 'Nom nom nom'
     Bread::Basket::Poster.dir_path = './spec/poster/test_files'
     @name = '.simple-selector'
-    @layout = Bread::Basket::Poster::Layout.new(metadata, body)
+    @layout = Bread::Basket::Poster::Layout.new(metadata)
   end
 
   describe 'css_reader sets up columns[0] correctly via reference' do

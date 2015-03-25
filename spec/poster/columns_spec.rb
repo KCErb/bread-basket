@@ -2,9 +2,8 @@ describe Bread::Basket::Poster::Columns do
   # explanation of before all in css_reader_spec
   before(:all) do
     metadata = { 'stylesheet' => 'basic_flow'  }
-    body = 'Nom nom nom'
     Bread::Basket::Poster.dir_path = './spec/poster/test_files'
-    @layout = Bread::Basket::Poster::Layout.new(metadata, body)
+    @layout = Bread::Basket::Poster::Layout.new(metadata)
   end
 
   it 'quits if specs are wrong' do

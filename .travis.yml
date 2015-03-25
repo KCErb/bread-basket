@@ -1,9 +1,13 @@
 language: ruby
-#cache: bundler
+cache: bundler
 
 rvm:
   - jruby
   - 2.0.0
+
+# Not sure why I need this!
+before_install:
+  - 'gem install bundler'
 
 script: 'bundle exec rake'
 

@@ -34,5 +34,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'css_parser', '~> 1.3'
   spec.add_dependency 'fastimage', '~> 1.6'
   spec.add_dependency 'prawn', '~> 2.0'
+  spec.add_dependency 'redcarpet', '~> 3.2'
   spec.add_dependency 'thor', '~> 0.19'
 end

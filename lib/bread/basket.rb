@@ -5,6 +5,7 @@ require 'css_parser'
 require 'prawn'
 require 'prawn/measurement_extensions'
 require 'fastimage'
+require 'redcarpet'
 
 # local
 require 'bread/basket/version'

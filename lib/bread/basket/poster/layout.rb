@@ -2,13 +2,12 @@ module Bread
   module Basket
     module Poster
       class Layout
-        attr_reader :metadata, :body, :stylesheet, :css_reader, :type
+        attr_reader :metadata, :stylesheet, :css_reader, :type
         attr_accessor :height, :width, :left, :right, :top, :bottom, :margin,
                       :pending, :determined, :font_size, :font_family
 
-        def initialize(metadata, body)
+        def initialize(metadata)
           @metadata = metadata
-          @body = body
           @type = determine_type
           @stylesheet = find_stylesheet(metadata['stylesheet'])
           @css_reader = CSSReader.new(stylesheet, self)

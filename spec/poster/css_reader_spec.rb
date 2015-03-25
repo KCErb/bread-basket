@@ -6,9 +6,8 @@ describe Bread::Basket::Poster::CSSReader do
     # actually loading a markdown file from the start
     before(:all) do
       metadata = { 'stylesheet' => 'basic_flow'  }
-      body = 'Nom nom nom'
       Bread::Basket::Poster.dir_path = './spec/poster/test_files'
-      @layout = Bread::Basket::Poster::Layout.new(metadata, body)
+      @layout = Bread::Basket::Poster::Layout.new(metadata)
     end
 
     describe 'css_reader sets up the layout properties' do
@@ -101,11 +100,10 @@ describe Bread::Basket::Poster::CSSReader do
   context 'when given the basic_block stylesheet' do
     it 'fails if mismatch between css and layout type' do
       metadata = { 'stylesheet' => 'basic_block', 'layout' => 'flow'  }
-      body = 'Nom nom nom'
       Bread::Basket::Poster.dir_path = './spec/poster/test_files'
 
       expect do
-        Bread::Basket::Poster::Layout.new(metadata, body)
+        Bread::Basket::Poster::Layout.new(metadata)
       end.to raise_error SystemExit
     end
   end

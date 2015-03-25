@@ -1,20 +1,15 @@
 describe Bread::Basket::Poster::Layout do
   def layout_obj(metadata)
-    body = 'Hello :bread:'
-    Bread::Basket::Poster::Layout.new(metadata, body)
+    Bread::Basket::Poster::Layout.new(metadata)
   end
 
   context 'when metadata is meaningless' do
     let(:metadata) { { key: 'value' } }
     let(:body) { 'Hello :bread:!' }
-    subject { Bread::Basket::Poster::Layout.new(metadata, body) }
+    subject { Bread::Basket::Poster::Layout.new(metadata) }
 
     it 'has metadata' do
       expect(subject.metadata).to eq(metadata)
-    end
-
-    it 'has a body' do
-      expect(subject.body).to eq(body)
     end
 
     it 'creates a css-reader' do
