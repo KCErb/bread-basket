@@ -5,7 +5,7 @@ require 'pry'
 require 'rspec/its'
 require 'bread/basket'
 
-# Silence `puts` for nicer formatting
+# Stub `puts` for quieter testing
 RSpec.configure do |c|
   c.before { allow($stdout).to receive(:puts) }
 end

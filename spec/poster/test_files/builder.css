@@ -1,0 +1,39 @@
+.layout {
+  width: 100;
+  height: 100;
+  margin: 5;
+
+  font-size: 24;
+  font-family: times;
+}
+
+.columns {
+  count: 1;
+  top: B.bottom;
+}
+
+.S1 {
+  top: top - margin;
+  left: left + margin;
+  width: width - 2 * margin;
+}
+
+.A {
+  left: left + margin;
+  top: S1.bottom - margin;
+  width: S1.width;
+  height: 10;
+}
+
+.S2 {
+  top: A.bottom - margin;
+  left: left + margin;
+  width: S1.width;
+}
+
+.B {
+  left: left + margin;
+  top: S2.bottom - margin;
+  width: S1.width;
+  height: 10;
+}

@@ -4,7 +4,7 @@ module Bread
       class Layout
         attr_reader :metadata, :stylesheet, :css_reader, :type
         attr_accessor :height, :width, :left, :right, :top, :bottom, :margin,
-                      :pending, :determined, :font_size, :font_family
+                      :pending, :determined, :font_size, :font_family, :boxes
 
         def initialize(metadata)
           @metadata = metadata
@@ -67,6 +67,8 @@ module Bread
         def handle_defaults
           @pending = []
           @determined = {}
+          @boxes = []
+
           @font_size ||= 36.0
           @font_family ||= 'Helvetica'
           # add dimensions to the determined hash for reference

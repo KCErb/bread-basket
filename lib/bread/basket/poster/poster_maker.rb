@@ -15,7 +15,7 @@ module Bread
 
         EOS
 
-        attr_accessor :layout, :body
+        attr_accessor :layout, :metadata, :body
 
         def initialize(filename)
           @filename = filename
@@ -23,8 +23,7 @@ module Bread
           Poster.dir_path = File.dirname(filepath)
           check_file
           create_layout
-          read_markdown
-          # create_pdf
+          PDFBuilder.new.build
         end
 
         def check_file
@@ -36,14 +35,9 @@ module Bread
         def create_layout
           @metadata = YAML.load(@matchdata[0])
           @body = @matchdata.post_match
-          @layout = Layout.new(@metadata, @body)
+          @layout = Layout.new(@metadata)
           Poster.layout = layout
         end
-
-        def read_markdown
-        end
-        # def create_pdf
-        # end
       end
 
       # define custom error so that specs only pass if

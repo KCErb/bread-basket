@@ -1,8 +1,15 @@
 ---
 layout: flow
+
 stylesheet: flow_sample
-title: Lorem Ipsum Dolor sit Amet
-authors: Lorem I., Dolor S.[2], and Amet C.
+
+title: Lorem **Ipsum** Dolor *sit* Amet
+
+authors:
+  - Lorem I. : 1
+  - Dolor S. : [1,2]
+  - Amet C. : 1
+
 affiliations:
   - Adipiscing ET, Praesent, Varius, Libero
   - Nulla-Facilisis, Ultrices, Justo

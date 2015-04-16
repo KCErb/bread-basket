@@ -115,6 +115,7 @@ module Bread
         def make_stretchy
           box.add_to_determined 'bottom', :stretchy
           box.add_to_determined 'height', :stretchy
+          box.stretchy = true
         end
       end
     end

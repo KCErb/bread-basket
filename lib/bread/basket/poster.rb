@@ -1,3 +1,5 @@
+require 'bread/basket/poster/text_renderer'
+require 'bread/basket/poster/block_renderer'
 require 'bread/basket/poster/poster_maker'
 require 'bread/basket/poster/layout'
 require 'bread/basket/poster/box_checker'
@@ -7,16 +9,13 @@ require 'bread/basket/poster/box'
 require 'bread/basket/poster/image_box'
 require 'bread/basket/poster/columns'
 require 'bread/basket/poster/css_reader'
-require 'bread/basket/poster/renderer'
+require 'bread/basket/poster/pdf_builder'
 
-# Set-up module, so far the module houses one ivar and a constant
 module Bread
   module Basket
     module Poster
-      PDF = Prawn::Document.new
-
       class << self
-        attr_accessor :dir_path, :layout
+        attr_accessor :dir_path, :layout, :pdf, :current_box
       end
     end
   end

@@ -7,9 +7,10 @@ module Bread
         # so it's a little confusing. It passes dimensions off to the dimensions
         # helper and holds the methods for setting dimensions as either pending
         # or determined and how to resolve those issues.
-        attr_reader :selector_name, :method_name, :layout, :specs, :top, :left,
-                    :width, :height, :bottom, :right, :pending, :unfinished,
-                    :styles, :helper
+        attr_reader :selector_name, :method_name, :layout, :specs,
+                    :pending, :unfinished, :styles
+        attr_accessor :top, :left, :width, :height, :bottom, :right, :stretchy,
+                      :content
 
         def initialize(name, layout, specs = {})
           @selector_name = name
@@ -21,10 +22,11 @@ module Bread
 
           setup_dimensions
           setup_styles
+          layout.boxes << selector_name
         end
 
         def setup_dimensions
-          @helper = DimensionsHelper.new(self, layout, specs)
+          DimensionsHelper.new(self, layout, specs)
           layout.pending << selector_name unless pending.empty?
         end
 
@@ -108,6 +110,10 @@ module Bread
             str << "#{dim}: #{send(dim)}; "
           end
           str.strip
+        end
+
+        def stretchy?
+          !stretchy.nil?
         end
       end
     end

@@ -21,6 +21,10 @@ describe Bread::Basket::Poster::CSSReader do
 
       its(:font_size)  { should eq(24) }
       its(:font_family)  { should eq('times') }
+      its(:boxes) do
+        boxes = %w(columns[0] columns[1] columns[2] columns[3] .stretchy-box .image)
+        should eq boxes
+      end
     end
 
     describe 'css_reader sets up columns[0]' do
