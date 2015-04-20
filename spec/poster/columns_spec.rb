@@ -49,4 +49,16 @@ describe Bread::Basket::Poster::Columns do
       Bread::Basket::Poster::Columns.new specs, @layout
     end.to raise_error SystemExit
   end
+
+  it 'uses columns font-size for spacing if provided' do
+    specs = { 'count' => 5, 'top' => [40, 10, 30], 'font-size' => 37 }
+    columns = Bread::Basket::Poster::Columns.new specs, @layout
+    expect(columns.spacing).to eq 37
+  end
+
+  it 'uses layout font-size for spacing if no font-size specified' do
+    specs = { 'count' => 5, 'top' => [40, 10, 30] }
+    columns = Bread::Basket::Poster::Columns.new specs, @layout
+    expect(columns.spacing).to eq 24
+  end
 end

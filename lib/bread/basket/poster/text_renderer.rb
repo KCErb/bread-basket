@@ -2,42 +2,45 @@ module Bread
   module Basket
     module Poster
       class TextRenderer < Redcarpet::Render::Base
-        attr_reader :pdf, :layout, :box
+        attr_reader :pdf, :layout, :curr_styles
 
         def preprocess(full_document)
-          # First things first
           @pdf = Poster.pdf
           @layout = Poster.layout
-          @box = Poster.current_box
-          bounding_box_styles
+          @curr_styles = Poster.current_styles
+          curr_styles['font-size'] = layout.font_size unless curr_styles.key? 'font-size'
+          pdf.font_size curr_styles['font-size']
           full_document
         end
 
-        def bounding_box_styles
-          pdf.font_size box.styles['font-size'] || layout.font_size
-        end
-
         def alignment
-          if box.styles['text-align']
-            box.styles['text-align'].to_sym
+          if curr_styles['text-align']
+            curr_styles['text-align'].to_sym
           else
             :left
           end
         end
 
-        # plain jane text
         def paragraph(text)
           pdf.text text, inline_format: true, align: alignment
         end
 
-        # sections
-        def header(_text, _header_level)
-          # needs to be scss aware
+        def header(text, _header_level)
+          @header_maker = Poster::HeaderMaker.new(pdf, layout) unless @header_maker
+          @header_maker.create_header(text, curr_styles)
         end
 
-        # figure with caption
+        # Very overloaded function for images, equations and maybe someday code
         def block_code(_caption, _image_path)
-          caption
+          # pdf.stroke_color 'ff0000'
+          # pdf.move_down 36
+          # pdf.stroke do
+          #   pdf.rectangle [pdf.bounds.left, pdf.cursor], 100, 200
+          # end
+          # pdf.move_down 210
+          # pdf.text caption
+          # pdf.move_down 36
+          # ''
         end
 
         # > A pull quote
@@ -64,14 +67,12 @@ module Bread
           "<sup>#{text}</sup>"
         end
 
-        # code font
+        # inline `code span`
         def codespan(_text)
-          # needs to be scss aware
         end
 
-        # accent color
+        # inline ==highlighting==
         def highlight(_text)
-          # needs to be scss aware
         end
 
         # first thing called on each element, it's return

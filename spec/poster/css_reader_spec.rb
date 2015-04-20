@@ -3,7 +3,8 @@ describe Bread::Basket::Poster::CSSReader do
   # and the like, but I'm trying to only spec out the jobs of css_reader.
   context 'when given the basic_flow stylesheet' do
     # Using a before block here because I want to alter the load path without
-    # actually loading a markdown file from the start
+    # actually loading a markdown file from the start. Layout needs a real css
+    # file to talk to in order to initialize correctly.
     before(:all) do
       metadata = { 'stylesheet' => 'basic_flow'  }
       Bread::Basket::Poster.dir_path = './spec/poster/test_files'
@@ -74,7 +75,7 @@ describe Bread::Basket::Poster::CSSReader do
     describe 'css_reader creates header style' do
       subject { @layout.header }
       it 'should have background color in its hash' do
-        expect(subject['background-color']).to eq('#fff')
+        expect(subject['background-color']).to eq('#ffffff')
       end
     end
 

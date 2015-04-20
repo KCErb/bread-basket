@@ -39,7 +39,7 @@ module Bread
         def build_flow
           boxes_from_metadata
           create_columns
-          # pdf.render_file "testerooony.pdf"
+          pdf.render_file 'testerooony.pdf'
         end
 
         def boxes_from_metadata
@@ -76,12 +76,28 @@ module Bread
           opts[:height] = box.height if box.height.is_a? Numeric
 
           pdf.bounding_box([box.left, box.top], opts) do
-            Poster.current_box = box
+            Poster.current_styles = box.styles
             text_renderer.render box.content
           end
         end
 
+        # refactor me!
         def create_columns
+          pdf.column_box(left_top, column_box_opts) do
+            Poster.current_styles = layout.column_styles
+            text_renderer.render Poster.body
+          end
+        end
+
+        def left_top
+          left_edge = layout.columns[0].left
+          top_edge = layout.columns[0].top
+          [left_edge, top_edge]
+        end
+
+        def column_box_opts
+          columns_width = pdf.bounds.width - 2 * layout.margin
+          { columns: 4, width: columns_width }
         end
       end
     end

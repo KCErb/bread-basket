@@ -69,13 +69,13 @@ module Bread
           @determined = {}
           @boxes = []
 
-          @font_size ||= 36.0
+          @font_size ||= 36
           @font_family ||= 'Helvetica'
+          @margin ||= 36
           # add dimensions to the determined hash for reference
           # open to a better solution here :)
-          %w(width height left right top bottom margin
-             font_size font_family
-          ).each do |method_name|
+          %w(width height left right top bottom margin font_size
+             font_family).each do |method_name|
             determined[method_name] = eval("@#{method_name}")
           end
         end

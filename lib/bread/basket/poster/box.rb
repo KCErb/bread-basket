@@ -17,24 +17,18 @@ module Bread
           @method_name = name.sub('.', '').gsub('-', '_')
           @layout = layout
           @specs = specs
+          @styles = specs
           @pending = []
           @unfinished = []
 
           setup_dimensions
-          setup_styles
+
           layout.boxes << selector_name
         end
 
         def setup_dimensions
           DimensionsHelper.new(self, layout, specs)
           layout.pending << selector_name unless pending.empty?
-        end
-
-        def setup_styles
-          @styles = specs
-          DIMENSIONS.each do |dimension|
-            @styles.delete dimension
-          end
         end
 
         def try_to_resolve

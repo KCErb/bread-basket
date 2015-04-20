@@ -1,7 +1,7 @@
 describe Bread::Basket::Poster::PDFBuilder do
   context 'when metadata contains boxes' do
     # explanation of before(:all) in css_reader_spec
-    before(:all) do
+    before(:each) do
       metadata = { 'stylesheet' => 'builder',
                    'A' => 'Box content!',
                    'S1' => 'Stretchy content!',
@@ -12,33 +12,27 @@ describe Bread::Basket::Poster::PDFBuilder do
       Bread::Basket::Poster.layout = Bread::Basket::Poster::Layout.new(metadata)
     end
 
-    # Didn't use `subject` here because I can't have the 'after' (below) test
-    # running before the 'before' test and modifying `subject`.
+    subject { Bread::Basket::Poster::PDFBuilder.new }
 
     it 'creates a PDF' do
-      Bread::Basket::Poster::PDFBuilder.new
-      pdf = Bread::Basket::Poster.pdf
-      expect(pdf).to be_a Prawn::Document
+      expect(subject.pdf).to be_a Prawn::Document
     end
 
     it 'creates a text_renderer' do
-      builder = Bread::Basket::Poster::PDFBuilder.new
-      expect(builder.text_renderer).to be_a Redcarpet::Markdown
+      expect(subject.text_renderer).to be_a Redcarpet::Markdown
     end
 
     # this stylesheet has lots of dependence on stretchy boxes to check for builder's
     # ability to resolve them *after* stretchy size has been determined
     # BEFORE
     it 'starts out with most boxes pending' do
-      builder = Bread::Basket::Poster::PDFBuilder.new
-      expect(builder.layout.pending).to eq %w(columns[0] .A .S2 .B)
+      expect(subject.layout.pending).to eq %w(columns[0] .A .S2 .B)
     end
 
     # AFTER
     it 'builds the boxes and leaves none pending' do
-      builder = Bread::Basket::Poster::PDFBuilder.new
-      builder.boxes_from_metadata
-      expect(builder.layout.pending).to eq []
+      subject.boxes_from_metadata
+      expect(subject.layout.pending).to eq []
     end
   end
 

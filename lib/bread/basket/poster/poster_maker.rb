@@ -35,6 +35,7 @@ module Bread
         def create_layout
           @metadata = YAML.load(@matchdata[0])
           @body = @matchdata.post_match
+          Poster.body = @body
           @layout = Layout.new(@metadata)
           Poster.layout = layout
         end

@@ -1,3 +1,6 @@
+require 'bread/basket/poster/prawn_patches/column_box'
+require 'bread/basket/poster/header_callback'
+require 'bread/basket/poster/header_maker'
 require 'bread/basket/poster/text_renderer'
 require 'bread/basket/poster/block_renderer'
 require 'bread/basket/poster/poster_maker'
@@ -15,7 +18,7 @@ module Bread
   module Basket
     module Poster
       class << self
-        attr_accessor :dir_path, :layout, :pdf, :current_box
+        attr_accessor :dir_path, :layout, :pdf, :current_styles, :body
       end
     end
   end

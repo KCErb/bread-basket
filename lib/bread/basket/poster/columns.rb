@@ -4,13 +4,14 @@ module Bread
       class Columns
         # Columns are a special type of bounding box in prawn so they get their
         # own class here to handle their dimensions.
-        attr_reader :specs, :count, :layout, :tops, :width, :lefts, :boxes
+        attr_reader :specs, :count, :layout, :tops, :width, :lefts, :boxes, :spacing
 
         def initialize(specs, layout)
           @specs = specs
           @layout = layout
           check_specs
           @count = specs['count'].to_i
+          @spacing = specs['font-size'] || layout.font_size
           init_tops
           init_widths
           init_lefts
@@ -45,7 +46,7 @@ module Bread
         end
 
         def init_widths
-          col_spacing = layout.font_size * (count - 1) # from Prawn
+          col_spacing = spacing * (count - 1) # from Prawn
           @width = (columns_width - col_spacing) / count.to_f
         end
 
@@ -55,7 +56,7 @@ module Bread
         end
 
         def init_lefts
-          column_width = width + layout.font_size # again from Prawn
+          column_width = width + spacing # again from Prawn
           @lefts = count.times.inject([layout.margin]) do |a|
             a << a[-1] + column_width
           end
@@ -70,7 +71,7 @@ module Bread
                           'top' => tops[index],
                           'left' => lefts[index],
                           'width' => width,
-                          'bottom' => 'bottom + margin'
+                          'bottom' => layout.margin
             @boxes << box
           end
         end

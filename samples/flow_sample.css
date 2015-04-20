@@ -9,7 +9,10 @@
 
 .columns {
   count: 4;
-  top: 2 * margin, affiliations.bottom + margin;
+  top: top - 2 * margin, affiliations.bottom - margin;
+
+  font-size: 36;
+  text-align: justify;
 }
 
 .title {
@@ -50,6 +53,6 @@
 #header {
   background-color: #C00000;
   radius: 8;
-  color: white;
-  font-size: 30;
+  color: #ffffff;
+  font-size: 36;
 }

@@ -44,7 +44,7 @@ module Bread
         def attributes_from_specs(specs)
           layout.width = specs.delete 'width'
           layout.height = specs.delete 'height'
-          layout.margin = specs.delete 'margin' || 0
+          layout.margin = specs.delete 'margin'
           specs.each do |k, v|
             layout.create_attribute(k, v)
           end
@@ -63,6 +63,7 @@ module Bread
           specs = rules_to_specs(columns[0])
           columns = Columns.new specs, layout
           layout.create_attribute('columns', columns.boxes)
+          layout.create_attribute('column_styles', specs)
         end
 
         def create_bounding_boxes
