@@ -4,7 +4,6 @@
   margin: 1.in;
   font-size: 72;
   font-family: helvetica;
-  /*repeat-header: true;*/
 }
 
 .columns {
@@ -55,4 +54,8 @@
   radius: 8;
   color: #ffffff;
   font-size: 36;
+}
+
+#highlight{
+  color: #006eff;
 }

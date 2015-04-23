@@ -72,7 +72,10 @@ module Bread
         end
 
         # inline ==highlighting==
-        def highlight(_text)
+        def highlight(text)
+          color = layout.respond_to?(:highlight) ? layout.highlight['color'] : '#f700ff'
+          color.sub!('#', '')
+          "<color rgb='#{color}'>#{text}</color>"
         end
 
         # first thing called on each element, it's return
