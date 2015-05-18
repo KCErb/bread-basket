@@ -57,5 +57,13 @@ describe Bread::Basket::Poster::ImageBox do
       its(:height)  { should eq(300) }
       its(:width)   { should be_within(0.01).of(367) }
     end
+
+    it 'inspects itself' do
+      # I suspect this isn't ideal, I just copied and pasted the output to get this string
+      inspect_string = 'top: 1000.0; left: 600.0; width: 400.0; height: 326.984126984127;' \
+                       ' bottom: 673.015873015873; right: 1000.0; box_width: 400.0;' \
+                       ' box_height: 412; im_width: 400.0; im_height: 326.984126984127;'
+      expect(@layout.drgn_image1.inspect).to eq inspect_string
+    end
   end
 end

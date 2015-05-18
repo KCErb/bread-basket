@@ -58,9 +58,7 @@ module Bread
 
         def create_attribute(key, value)
           new_key = key.gsub('-', '_').sub('.', '').to_sym
-          self.class.send(:define_method, new_key) do
-            value
-          end
+          define_singleton_method(new_key) { value }
           # This is called at end of each attribute's definition
           try_to_resolve_pendings unless pending.nil?
         end
