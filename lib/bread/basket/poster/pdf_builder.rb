@@ -18,13 +18,7 @@ module Bread
         end
 
         def create_renderers
-          text_opts = { fenced_code_blocks: true,
-                        disable_indented_code_blocks: true,
-                        underline: true,
-                        highlight: true,
-                        superscript: true,
-                        tables: true }
-          @text_renderer = Redcarpet::Markdown.new(TextRenderer, text_opts)
+          @text_renderer = Redcarpet::Markdown.new(TextRenderer, TEXT_RENDERER_OPTS)
           # @block_renderer = Redcarpet::Markdown.new(BlockRenderer)
         end
 
@@ -37,9 +31,9 @@ module Bread
         end
 
         def build_flow
+          image_boxes
           boxes_from_metadata
           create_columns
-          pdf.render_file 'testerooony.pdf'
         end
 
         def boxes_from_metadata
@@ -81,7 +75,6 @@ module Bread
           end
         end
 
-        # refactor me!
         def create_columns
           pdf.column_box(left_top, column_box_opts) do
             Poster.current_styles = layout.column_styles
@@ -97,7 +90,22 @@ module Bread
 
         def column_box_opts
           columns_width = pdf.bounds.width - 2 * layout.margin
-          { columns: 4, width: columns_width }
+          columns_height = left_top[1] - layout.margin
+          { columns: 4, width: columns_width, height: columns_height }
+        end
+
+        def image_boxes
+          layout.image_boxes.each do |box_name|
+            image_box = layout.send box_name
+            path = image_path(image_box)
+            pdf.image path, fit: [image_box.width, image_box.height],
+                            at: [image_box.left, image_box.top]
+          end
+        end
+
+        def image_path(image_box)
+          image_src = image_box.styles['src']
+          Bread::Basket::Poster.dir_path + '/' + image_src
         end
       end
     end

@@ -1,11 +1,10 @@
 describe Bread::Basket::Poster::HeaderMaker do
   let(:pdf) { Prawn::Document.new }
-
+  # explanation of before(:all) in css_reader_spec
   context 'when header styles are provided they override' do
     before(:all) do
       metadata = { 'stylesheet' => 'nearly_empty'  }
       Bread::Basket::Poster.dir_path = './spec/poster/test_files'
-      @pdf = Prawn::Document.new
       @layout = Bread::Basket::Poster::Layout.new(metadata)
     end
 

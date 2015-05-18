@@ -30,22 +30,15 @@ module Bread
           @header_maker.create_header(text, curr_styles)
         end
 
-        # Very overloaded function for images, equations and maybe someday code
-        def block_code(_caption, _image_path)
-          # pdf.stroke_color 'ff0000'
-          # pdf.move_down 36
-          # pdf.stroke do
-          #   pdf.rectangle [pdf.bounds.left, pdf.cursor], 100, 200
-          # end
-          # pdf.move_down 210
-          # pdf.text caption
-          # pdf.move_down 36
-          # ''
+        # Overloaded function for images, equations and maybe someday even code
+        def block_code(content, first_line)
+          BlockCodeHandler.new(pdf, layout, first_line, content)
+          ''
         end
 
-        # > A pull quote
-        def block_quote(_quote)
-        end
+        # > Quote Feature
+        # def block_quote(_quote)
+        # end
 
         # *italic*
         def emphasis(text)
@@ -68,8 +61,8 @@ module Bread
         end
 
         # inline `code span`
-        def codespan(_text)
-        end
+        # def codespan(_text)
+        # end
 
         # inline ==highlighting==
         def highlight(text)
@@ -80,16 +73,16 @@ module Bread
 
         # first thing called on each element, it's return
         # value gets added to the table row
-        def table_cell(_content, _alignment)
-        end
+        # def table_cell(_content, _alignment)
+        # end
 
         # called after all cells, content is their contents joined
-        def table_row(_content)
-        end
+        # def table_row(_content)
+        # end
 
         # called after all rows, header is header row, body is remaining rows.
-        def table(_header, _body)
-        end
+        # def table(_header, _body)
+        # end
       end
     end
   end

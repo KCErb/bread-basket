@@ -24,6 +24,12 @@ module Bread
           check_file
           create_layout
           PDFBuilder.new.build
+          render
+        end
+
+        def render
+          name = @filename.sub(/\..*/, '')
+          Poster.pdf.render_file name + '.pdf'
         end
 
         def check_file

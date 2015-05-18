@@ -2,13 +2,13 @@
   width: 4.ft;
   height: 3.ft;
   margin: 1.in;
-  font-size: 72;
+
   font-family: helvetica;
 }
 
 .columns {
   count: 4;
-  top: top - 2 * margin, affiliations.bottom - margin;
+  top: top - logo-left.height - margin, affiliations.bottom - 2 * margin;
 
   font-size: 36;
   text-align: justify;
@@ -17,30 +17,27 @@
 .title {
   left: columns[1].left;
   right: columns[2].right;
-  top: top - margin;
-  /*height: 3.in;*/
+  top: top - 3 * margin;
 
-  font-size: 54;
+  font-size: 60;
   text-align: center;
 }
 
 .authors {
   left: title.left;
   right: title.right;
-  top: title.bottom - margin;
-  height: 2.in;
+  top: title.bottom - margin / 2;
 
-  font-size: 36;
+  font-size: 48;
   text-align: center;
 }
 
 .affiliations {
   left: title.left;
   right: title.right;
-  top: authors.bottom - margin;
-  height: 1.in;
+  top: authors.bottom - margin / 2;
 
-  font-size: 24;
+  font-size: 36;
   text-align: center;
 }
 
@@ -50,12 +47,22 @@
 }
 
 #header {
-  background-color: #C00000;
+  background-color: #a90025;
   radius: 8;
   color: #ffffff;
-  font-size: 36;
+  font-size: 48;
+  margin-top: 1.in;
+  margin-bottom: 24;
 }
 
 #highlight{
   color: #006eff;
+}
+
+.logo-left {
+  top: top - margin;
+  left: left + margin;
+  width: columns[0].width - margin;
+
+  src: ucair_logo.png;
 }

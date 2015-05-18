@@ -1,6 +1,6 @@
 describe Bread::Basket::Poster::PDFBuilder do
   context 'when metadata contains boxes' do
-    # explanation of before(:all) in css_reader_spec
+    # explanation of before(:each) in css_reader_spec
     before(:each) do
       metadata = { 'stylesheet' => 'builder',
                    'A' => 'Box content!',

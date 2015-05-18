@@ -2,12 +2,13 @@ module Bread
   module Basket
     module Poster
       module UnitsHelper
-        # measurements get `eval`d so guard input! This list of options
+        # measurements get `eval`d so this guards the input! This list of options
         # comes from prawn/measurement_extensions
         MEASUREMENT_REGEX = /\A\d+\.(mm|cm|dm|m|in|yd|ft|pt)\z/
         NUMERIC_REGEX = /\A\d+(?:\.\d+)?\z/
         HASH_SELECTOR_REGEX = /\A#(\w+\-?)*\z/
-        DIMENSIONS = %w(top left right bottom width height)
+        DIMENSIONS = %w(top left right bottom width height box_width box_height
+                        im_width im_height)
 
         def convert_units(value)
           case value

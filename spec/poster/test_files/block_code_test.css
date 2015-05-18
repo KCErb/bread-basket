@@ -1,0 +1,13 @@
+.layout {
+  width: 1000;
+  height: 1000;
+}
+
+.columns {
+  top: 0;
+  count: 1;
+}
+
+#caption {
+  font-size: 20;
+}

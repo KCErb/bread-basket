@@ -13,8 +13,7 @@ module Bread
                       :content
 
         def initialize(name, layout, specs = {})
-          @selector_name = name
-          @method_name = name.sub('.', '').gsub('-', '_')
+          fetch_names(name)
           @layout = layout
           @specs = specs
           @styles = specs
@@ -22,8 +21,13 @@ module Bread
           @unfinished = []
 
           setup_dimensions
-
+          layout.image_boxes << method_name if self.is_a? ImageBox
           layout.boxes << selector_name
+        end
+
+        def fetch_names(name)
+          @selector_name = name
+          @method_name = name.sub('.', '').gsub('-', '_')
         end
 
         def setup_dimensions

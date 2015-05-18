@@ -4,7 +4,8 @@ module Bread
       class Layout
         attr_reader :metadata, :stylesheet, :css_reader, :type
         attr_accessor :height, :width, :left, :right, :top, :bottom, :margin,
-                      :pending, :determined, :font_size, :font_family, :boxes
+                      :pending, :determined, :font_size, :font_family, :boxes,
+                      :image_boxes
 
         def initialize(metadata)
           @metadata = metadata
@@ -65,10 +66,7 @@ module Bread
         end
 
         def handle_defaults
-          @pending = []
-          @determined = {}
-          @boxes = []
-
+          empty_defaults
           @font_size ||= 36
           @font_family ||= 'Helvetica'
           @margin ||= 36
@@ -78,6 +76,13 @@ module Bread
              font_family).each do |method_name|
             determined[method_name] = eval("@#{method_name}")
           end
+        end
+
+        def empty_defaults
+          @pending = []
+          @determined = {}
+          @boxes = []
+          @image_boxes = []
         end
 
         def try_to_resolve_pendings
