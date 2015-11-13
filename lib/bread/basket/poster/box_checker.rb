@@ -13,26 +13,18 @@ module Bread
           @dimensions = dimensions
         end
 
-        def horizontal_dimensions
+        def dimensions_given(dimensions_arr)
           arr = []
           dimensions.each_key do |key|
-            arr << key if  %w(left right width).include? key
+            arr << key if  dimensions_arr.include? key
           end
           warn_right if arr.length > 2
           arr
         end
 
-        def vertical_dimensions
-          arr = []
-          dimensions.each_key do |key|
-            arr << key if  %w(top bottom height).include? key
-          end
-          warn_bottom if arr.length > 2
-          arr
-        end
-
         def horizontal_ok?
-          horiz = %w(left right width) - horizontal_dimensions
+          horizontal = %w(left right width)
+          horiz =  horizontal - dimensions_given(horizontal)
           horiz.length < 2
         end
 

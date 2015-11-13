@@ -85,15 +85,17 @@ module Bread
         end
 
         def left_right_width
-          given = checker.horizontal_dimensions
-          difference = %w(left right width) - given
+          horizontal = %w(left right width)
+          given = checker.dimensions_given(horizontal)
+          difference = horizontal - given
           missing = difference.empty? ? 'right' : difference[0]
           missing_dimension given, missing
         end
 
         def top_bottom_height
-          given = checker.vertical_dimensions
-          difference = %w(top bottom height) - given
+          vertical = %w(top bottom height)
+          given = checker.dimensions_given(vertical)
+          difference = vertical - given
           case difference.length
           when 0
             missing_dimension given, 'bottom'
